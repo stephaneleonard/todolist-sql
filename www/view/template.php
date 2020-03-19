@@ -5,14 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../public/css/style.css">
-    <title>Keep Note</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>Keep Notes</title>
 </head>
 
-<body class="bg-primary">
-    <header>
+<body class="bg-primary font-body text-white">
+    <header class="border-b border-gray">
+        <h1 class="text-2xl m-4">Keep Notes</h1>
     </header>
     <main>
         <div class="container mx-auto">
+            <?= $content ?>
         </div>
     </main>
     <footer>
