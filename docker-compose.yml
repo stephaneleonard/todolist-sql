@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  webserver:
+    build:
+      context: ./bin/webserver
+    container_name: "webserver"
+    restart: "always"
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - db
+    volumes:
+      - ./www:/var/www/html
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      - ./logs/apache2:/var/log/apache2
+  db:
+    image: mysql:latest
+    container_name: "db"
+    restart: "always"
+    ports:
+      - 3307:3307
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  pma:
+    image: phpmyadmin/phpmyadmin
+    container_name: "pma"
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    volumes:
+      - /sessions
