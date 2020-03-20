@@ -1,23 +1,31 @@
 <?php ob_start(); ?>
 <section class="p-8">
     <h2 class="text-2xl mb-6">TODO</h2>
-    <?php
-    while ($data = $unchecked->fetch()) { ?>
-        <label class="text-xl block hover:bg-gray">
-            <input id="<?= $data['id'] ?>" class="checkbox mr-2 leading-tight" type="checkbox">
-            <?= $data['todo'] ?>
-        </label>
-    <?php } ?>
+    <ul id='todo'>
+        <?php
+        while ($data = $unchecked->fetch()) { ?>
+            <li>
+                <label class="text-xl block hover:bg-gray">
+                    <input id="<?= $data['id'] ?>" class="checkbox mr-2 leading-tight" type="checkbox">
+                    <?= $data['todo'] ?>
+                </label>
+            </li>
+        <?php } ?>
+    </ul>
 </section>
 <section class="p-8">
     <h2 class="text-2xl mb-6">Archive</h2>
-    <?php
-    while ($data = $checked->fetch()) { ?>
-        <label class="text-xl block line-through text-muted hover:bg-gray">
-            <input id="<?= $data['id'] ?>" class="checkbox mr-2 leading-tight" type="checkbox" checked>
-            <?= $data['todo'] ?>
-        </label>
-    <?php } ?>
+    <ul id='done'>
+        <?php
+        while ($data = $checked->fetch()) { ?>
+            <li>
+                <label class="text-xl block line-through text-muted hover:bg-gray">
+                    <input id="<?= $data['id'] ?>" class="checkbox mr-2 leading-tight" type="checkbox" checked>
+                    <?= $data['todo'] ?>
+                </label>
+            </li>
+        <?php } ?>
+    </ul>
 </section>
 <section class="p-8 border-t border-gray">
     <h2 class="text-2xl mb-6">Add a TODO</h2>
