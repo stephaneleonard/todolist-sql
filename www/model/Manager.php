@@ -61,8 +61,6 @@ class Manager
         $sql = $firstPart . $p . "VALUES " . $v;
         $db = $this->dbConnect();
         $prep = $db->prepare($sql);
-        var_dump($value);
-        var_dump($prep);
         return $prep->execute($value);
     }
     protected function updateDatas($var, $param = [], $value  = [], $condition  = [])

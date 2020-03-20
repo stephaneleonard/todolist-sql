@@ -29,12 +29,13 @@ class TodoManager extends Manager
         return parent::updateDatas(TODO, $param, $value, $condition);
     }
 
-    public function TogleCheckedDatas($id , $value)
+    public function TogleCheckedDatas($id, $value)
     {
         return parent::updateDatas(TODO, ["checked"], [$value], ["id = $id"]);
     }
-    public function addTodo()
+
+    public function addTodo($param = [], $value  = [])
     {
-        # code...
+        return parent::setDatas(TODO, $param, $value);
     }
 }

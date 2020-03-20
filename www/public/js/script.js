@@ -1,5 +1,4 @@
 (() => {
-  console.log("test");
   function detectChecked() {
     Array.from(document.getElementsByClassName("checkbox")).forEach(element => {
       element.addEventListener("click", e => {
@@ -35,12 +34,15 @@
         return response.text();
       })
       .then(function(text) {
-        console.log(text)
+        console.log(text);
         if (text == "error") {
           console.log("Error");
         } else {
           toggleList(e);
         }
+      })
+      .catch(function(error) {
+        console.error(error);
       });
   }
 
@@ -49,8 +51,10 @@
     const done = document.getElementById("done");
     const todoClass = "text-xl block hover:bg-gray";
     const doneClass = "text-xl block line-through text-muted hover:bg-gray";
-    const li = e.toElement.parentNode.parentElement;
-    const label = e.toElement.parentNode;
+    const li = e.toElement.parentNode;
+    console.log(li);
+    const label = li;
+    console.log(label);
     li.parentNode.removeChild(li);
     if (e.target.checked) {
       label.className = doneClass;
@@ -59,5 +63,38 @@
       label.className = todoClass;
       todo.appendChild(li);
     }
+  }
+
+  function getForm() {
+    const myForm = document.getElementById("myForm");
+    myForm.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const formData = new FormData(myForm);
+
+      fetch("./controller/ajaxAddController.php", {
+        method: "post",
+        body: formData
+      })
+        .then(function(response) {
+          return response.text();
+        })
+        .then(function(text) {
+          console.log(text);
+          addNewTodo();
+          myForm.reset();
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    });
+  }
+  getForm();
+
+  function addNewTodo(){
+    //create the element
+
+    //append data
+    //append to todo li
   }
 })();
