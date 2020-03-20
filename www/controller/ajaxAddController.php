@@ -17,5 +17,12 @@ $res =   $todoManager->addTodo(['todo', 'checked'], [$result[CONTENT], 0]);
 if (!$res) {
     echo 'error';
 } else {
-    print_r($data);
+    $todo = $todoManager->getTodoData($result[CONTENT]);
+    if($todo){
+        $json = json_encode($todo->fetchAll()); 
+        echo $json;
+    }
+    else{
+        echo 'error';
+    }
 }

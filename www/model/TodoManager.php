@@ -14,6 +14,11 @@ class TodoManager extends Manager
         return parent::getDatas(TODO, $variable, $condition, $orderBy, $asc, $limit);
     }
 
+    public function getTodoData($todo, $orderBy = null, $asc = null, $limit = null)
+    {
+        return parent::getDatas(TODO, [], ["todo = '$todo'"], null, null, null);
+    }
+
     public function getUncheckedTodoDatas($variable = [], $condition  = [], $orderBy = null, $asc = null, $limit = null)
     {
         return parent::getDatas(TODO, $variable, ["checked = 0"], $orderBy, $asc, $limit);

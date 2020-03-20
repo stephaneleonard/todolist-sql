@@ -77,11 +77,11 @@
         body: formData
       })
         .then(function(response) {
-          return response.text();
+          return response.json();
         })
-        .then(function(text) {
-          console.log(text);
-          addNewTodo();
+        .then(function(json) {
+          console.log(json[0]);
+          addNewTodo(json[0]);
           myForm.reset();
         })
         .catch(function(error) {
@@ -91,8 +91,23 @@
   }
   getForm();
 
-  function addNewTodo(){
+  function addNewTodo(e) {
     //create the element
+    const todo = document.getElementById("todo");
+    const li = document.createElement("li");
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    li.className = "hover:bg-gray";
+    input.setAttribute("type", "checkbox");
+    input.className = "checkbox mr-2 leading-tight";
+    input.id = `${e["id"]}`;
+    input.name = `checkbox-${e["id"]}`;
+    label.className = "text-xl";
+    label.setAttribute("for", `${e["id"]}`);
+    label.innerHTML = `${e["todo"]}`;
+    li.appendChild(input);
+    li.appendChild(label);
+    todo.appendChild(li);
 
     //append data
     //append to todo li
