@@ -1,7 +1,8 @@
 (() => {
-  function detectChecked() {
-    Array.from(document.getElementsByClassName("checkbox")).forEach(element => {
-      element.addEventListener("click", e => {
+  function detectChecked($list) {
+    document.getElementById($list).addEventListener("click", e => {
+      console.log(event.target.tagName);
+      if (event.target.tagName == "INPUT") {
         if (e.target.checked) {
           console.log(`elem with id  ${e.target.id} checked`);
           const elem = {
@@ -17,10 +18,11 @@
           };
           fetchData(elem, e);
         }
-      });
+      }
     });
   }
-  detectChecked();
+  detectChecked('todo');
+  detectChecked('done');
 
   function fetchData(elem, e) {
     fetch("./controller/ajaxController.php", {
@@ -97,6 +99,7 @@
     const li = document.createElement("li");
     const label = document.createElement("label");
     const input = document.createElement("input");
+    //append data
     li.className = "hover:bg-gray";
     input.setAttribute("type", "checkbox");
     input.className = "checkbox mr-2 leading-tight";
@@ -105,11 +108,9 @@
     label.className = "text-xl";
     label.setAttribute("for", `${e["id"]}`);
     label.innerHTML = `${e["todo"]}`;
+    //append to todo li
     li.appendChild(input);
     li.appendChild(label);
     todo.appendChild(li);
-
-    //append data
-    //append to todo li
   }
 })();
