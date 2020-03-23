@@ -1,6 +1,7 @@
 <?php
 require_once('../model/TodoManager.php');
 define('CONTENT', 'content');
+define('RANKING', 'ranking');
 //Sanatize
 $options = [
     CONTENT => FILTER_SANITIZE_STRING,
@@ -13,7 +14,8 @@ foreach ($result as $key) {
 //insert
 
 $todoManager = new StephaneLeonard\TODOLIST\Model\TodoManager();
-$res =   $todoManager->addTodo(['todo', 'checked'], [$result[CONTENT], 0]);
+$ranking = (int)$todoManager->getLastRankTodo(0)->fetchAll()[0][RANKING] +1; 
+$res =   $todoManager->addTodo(['todo', 'checked' , 'ranking'], [$result[CONTENT], 0 , $ranking]);
 if (!$res) {
     echo 'error';
 } else {
