@@ -4,7 +4,7 @@
     <ul id='todo'>
         <?php
         while ($data = $unchecked->fetch()) { ?>
-            <li class="hover:bg-gray">
+            <li class="hover:bg-gray" draggable="true">
                 <input id="<?= $data['id'] ?>" class="checkbox mr-2 leading-tight" type="checkbox" name="checkbox-<?=$data['id'] ?>">
                 <label class="text-xl" for="<?=$data['id'] ?>">
                     <?= $data['todo'] ?>

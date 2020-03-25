@@ -19,6 +19,7 @@
         </div>
     </main>
     <footer>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
         <script src="../public/js/script.js"></script>
     </footer>
 

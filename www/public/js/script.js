@@ -1,4 +1,20 @@
+const Sortable = window.Sortable;
 (() => {
+  var el = document.getElementById("todo");
+  Sortable.create(el, {
+    onEnd: evt => {
+      console.log(evt.oldDraggableIndex + 1);
+      console.log(evt.newDraggableIndex + 1);
+      console.log(evt.item.getElementsByTagName("input")[0].id);
+      setNewRanking(
+        evt.newDraggableIndex + 1,
+        evt.oldDraggableIndex + 1,
+        0,
+        evt.item.getElementsByTagName("input")[0].id
+      );
+    }
+  });
+
   function detectChecked($list) {
     document.getElementById($list).addEventListener("click", e => {
       console.log(event.target.tagName);
@@ -21,8 +37,8 @@
       }
     });
   }
-  detectChecked('todo');
-  detectChecked('done');
+  detectChecked("todo");
+  detectChecked("done");
 
   function fetchData(elem, e) {
     fetch("./controller/ajaxController.php", {
@@ -63,6 +79,7 @@
       done.appendChild(li);
     } else {
       label.className = todoClass;
+      label.draggable = true;
       todo.appendChild(li);
     }
   }
@@ -101,6 +118,7 @@
     const input = document.createElement("input");
     //append data
     li.className = "hover:bg-gray";
+    li.draggable = "true";
     input.setAttribute("type", "checkbox");
     input.className = "checkbox mr-2 leading-tight";
     input.id = `${e["id"]}`;
@@ -112,5 +130,28 @@
     li.appendChild(input);
     li.appendChild(label);
     todo.appendChild(li);
+  }
+
+  function setNewRanking(newRank, oldRank, checked, id) {
+    console.log(id);
+    fetch("./controller/ajaxUpdateController.php", {
+      method: "post",
+      body: JSON.stringify({ newRank, oldRank, checked, id }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(function(response) {
+        return response.text();
+      })
+      .then(function(text) {
+        console.log(text);
+        if (text == "error") {
+          console.log(text);
+        }
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
   }
 })();
