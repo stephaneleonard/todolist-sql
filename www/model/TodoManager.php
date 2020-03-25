@@ -38,8 +38,35 @@ class TodoManager extends Manager
 
     public function TogleCheckedDatas($id, $value)
     {
-        $ranking = (int) $this->getLastRankTodo($value)->fetchAll()[0][RANKING] + 1;
-        return parent::updateDatas(TODO, ["checked", RANKING], [$value, $ranking], ["id = $id"]);
+        $oldRanking = (int) $this->getTodoDatas([RANKING] , ["id = $id"])->fetchAll()[0][RANKING];
+        $ranking = (int) $this->getLastRankTodo($value)->fetchAll()[0][RANKING];
+        $newRanking = $ranking + 1;
+        try {
+            parent::updateDatas(TODO, ["checked", RANKING], [$value, $newRanking], ["id = $id"]);
+            var_dump($ranking);
+            var_dump($newRanking);
+            $bdd = parent::dbConnect();
+            $bdd->beginTransaction();
+            $sql = "UPDATE todos SET ranking =  ranking -1 WHERE ranking >= $oldRanking and checked = 0";
+            var_dump($sql);
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute(
+                // array(
+                //     $ranking,
+                //     $value ==1 ? 0 : 1
+                // )
+            );
+            $bdd->commit();
+        } catch (\Exception $e) {
+            //An exception has occured, which means that one of our database queries
+            //failed.
+            //Print out the error message.
+            echo $e->getMessage();
+            //Rollback the transaction.
+            $bdd->rollBack();
+            return null;
+        }
+        return true;
     }
 
     public function addTodo($param = [], $value  = [])
@@ -79,8 +106,7 @@ class TodoManager extends Manager
                         $id
                     )
                 );
-            }
-            else if($newValue > $oldValue) {
+            } else if ($newValue > $oldValue) {
                 $sql = "UPDATE todos SET ranking =  ranking -1 WHERE ranking <= ? and ranking >= ? and checked = ? and id != ?";
                 $stmt = $bdd->prepare($sql);
                 $stmt->execute(
